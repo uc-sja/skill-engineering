@@ -16,36 +16,34 @@ The repository brings together reusable skills and project-scoped workflow examp
 .
 ├── README.md
 └── .claude/
-    ├── skills/                         # Reusable skills available at repository root
-    │   ├── cleanup-unused-resources/
-    │   └── generate-junit-tests/
-    ├── commands/                      # Root slash-command workflows
-    │   ├── analytics/
-    │   ├── assets/
-    │   ├── design/
-    │   ├── migration/
-    │   └── testing/
-    ├── customerapp/                   # Customer-app-scoped copies/workflows
-    │   ├── commands/
-    │   └── skills/
-    └── driverapp/                     # DriverAppV3-specific skills
+    ├── customerapp/
+    │   ├── skills/
+    │   │   ├── cleanup-unused-resources/  # SKILL.md + Python scanner helpers
+    │   │   └── generate-junit-tests/      # JUnit 5 test-generation skill
+    │   └── commands/
+    │       ├── analytics/
+    │       ├── assets/
+    │       ├── design/
+    │       ├── migration/
+    │       └── testing/
+    └── driverapp/
         ├── debugging/
-        ├── migrate-to-olc/
+        ├── migrate-to-olc/                # SKILL.md + four references
         ├── rib-lifecycle/
         └── testing/
 ```
 
-The `.claude/customerapp/` directory preserves project-scoped versions of selected commands and skills from the supplied archive. The `.claude/driverapp/` directory contains DriverAppV3-specific skills. These scoped bundles are retained as showcase/reference material; check the command and skill discovery rules of your Claude Code setup before assuming files nested under a custom directory are automatically invoked like files in `.claude/commands/` or `.claude/skills/`.
+All toolkit files are grouped under `customerapp/` or `driverapp/` to keep the two project collections separate. The repository intentionally contains no duplicate root-level `.claude/skills/` or `.claude/commands/` copies. These folders are organized for showcase and review; standard Claude Code auto-discovery generally expects skills and commands in the standard `.claude/skills/` and `.claude/commands/` directories, so use the appropriate installation/copy step if you want them active in a working repository.
 
 ## Skills
 
 ### General / CustomerApp skills
 
-#### [`cleanup-unused-resources`](.claude/skills/cleanup-unused-resources/SKILL.md)
+#### [`cleanup-unused-resources`](.claude/customerapp/skills/cleanup-unused-resources/SKILL.md)
 
 Identifies potential orphaned resources across Android `res/` directories and Kotlin Multiplatform Compose resources. It uses separate scanning logic for each resource system, accounting for module boundaries, cross-repository references, dynamically loaded assets, and cascading references such as layout includes or drawable selectors. Python helpers support report-first analysis and optional JSON output, with deletion treated as an explicit follow-up step. Scanner findings must be reviewed before deletion, especially where assets may be loaded dynamically by strings or backend configuration.
 
-#### [`generate-junit-tests`](.claude/skills/generate-junit-tests/SKILL.md)
+#### [`generate-junit-tests`](.claude/customerapp/skills/generate-junit-tests/SKILL.md)
 
 Guides the creation or migration of JUnit 5 tests for Kotlin Interactors, use cases, and HTTP services in a KMP codebase. It asks the agent to inspect production code and collaborators, choose a suitable test strategy, follow existing fixtures and conventions, and cover meaningful branches and observable behaviour. For HTTP services, it emphasizes using the production client/factory setup with a mock HTTP engine and asserting both responses and outgoing request details. Coroutine and source-set guidance is repository-specific and should be verified against the target project's current configuration.
 
@@ -92,20 +90,20 @@ Turns a heap-dump digest, dump identifier, or suspect class into a source-backed
 
 ## Slash-command workflows
 
-The root `.claude/commands/` directory contains these workflows:
+The `.claude/customerapp/commands/` directory contains these CustomerApp workflows:
 
 | Area | Command | Purpose |
 |---|---|---|
-| Analytics | [`add-analytics`](.claude/commands/analytics/add-analytics.md) | Add feature analytics events and tests using the project's established event conventions. |
-| Assets | [`convert-svg-to-xml`](.claude/commands/assets/convert-svg-to-xml.md) | Convert SVG assets to Android vector drawable XML and integrate the resources. |
-| Design | [`implement-screen`](.claude/commands/design/implement-screen.md) | Implement a Compose screen from design references using the project's design-system components and tokens. |
-| Migration | [`create-migration-checklist`](.claude/commands/migration/create-migration-checklist.md) | Create a trackable checklist for XML-to-Compose parity across UI states and interactions. |
-| Migration | [`migrate-xml-to-ds-rib`](.claude/commands/migration/migrate-xml-to-ds-rib.md) | Original XML-backed RIB to Compose/design-system migration workflow. |
-| Migration | [`migrate-xml-to-ds-rib_v2`](.claude/commands/migration/migrate-xml-to-ds-rib_v2.md) | Revised migration workflow with deeper legacy XML and design-coverage discovery. |
-| Testing | [`generate-compose-ui-tests`](.claude/commands/testing/generate-compose-ui-tests.md) | Draft Compose UI tests for rendered states, interactions, and UI events. |
-| Testing | [`generate-rib-tests`](.claude/commands/testing/generate-rib-tests.md) | Derive RIB behaviour scenarios from state, routing, and UI logic. |
-| Testing | [`generate-tests`](.claude/commands/testing/generate-tests.md) | Generate Kotlin/Cucumber-style tests for component behaviour using repository conventions. |
-| Testing | [`test-compose-view`](.claude/commands/testing/test-compose-view.md) | Explore Compose view variants with previews and runtime scenarios; review source/manifest changes carefully. |
+| Analytics | [`add-analytics`](.claude/customerapp/commands/analytics/add-analytics.md) | Add feature analytics events and tests using the project's established event conventions. |
+| Assets | [`convert-svg-to-xml`](.claude/customerapp/commands/assets/convert-svg-to-xml.md) | Convert SVG assets to Android vector drawable XML and integrate the resources. |
+| Design | [`implement-screen`](.claude/customerapp/commands/design/implement-screen.md) | Implement a Compose screen from design references using the project's design-system components and tokens. |
+| Migration | [`create-migration-checklist`](.claude/customerapp/commands/migration/create-migration-checklist.md) | Create a trackable checklist for XML-to-Compose parity across UI states and interactions. |
+| Migration | [`migrate-xml-to-ds-rib`](.claude/customerapp/commands/migration/migrate-xml-to-ds-rib.md) | Original XML-backed RIB to Compose/design-system migration workflow. |
+| Migration | [`migrate-xml-to-ds-rib_v2`](.claude/customerapp/commands/migration/migrate-xml-to-ds-rib_v2.md) | Revised migration workflow with deeper legacy XML and design-coverage discovery. |
+| Testing | [`generate-compose-ui-tests`](.claude/customerapp/commands/testing/generate-compose-ui-tests.md) | Draft Compose UI tests for rendered states, interactions, and UI events. |
+| Testing | [`generate-rib-tests`](.claude/customerapp/commands/testing/generate-rib-tests.md) | Derive RIB behaviour scenarios from state, routing, and UI logic. |
+| Testing | [`generate-tests`](.claude/customerapp/commands/testing/generate-tests.md) | Generate Kotlin/Cucumber-style tests for component behaviour using repository conventions. |
+| Testing | [`test-compose-view`](.claude/customerapp/commands/testing/test-compose-view.md) | Explore Compose view variants with previews and runtime scenarios; review source/manifest changes carefully. |
 
 The two XML-to-Compose/RIB migration commands are retained as separate versions for comparison. Choose and maintain a canonical workflow before using them as a team standard.
 
@@ -129,4 +127,4 @@ The two XML-to-Compose/RIB migration commands are retained as separate versions 
 
 ## Scope and provenance
 
-This showcase combines the general/customer-app skill and command files with the DriverAppV3 RIB, OLC migration, Maestro, and heap-investigation workflows present in the supplied archive. It also incorporates the attached skill/workflow descriptions as documentation. The README describes intended use; it does not claim that every command was executed or every generated result was independently validated.
+This showcase groups the supplied CustomerApp skills and command workflows under `.claude/customerapp/` and the DriverAppV3 RIB, OLC migration, Maestro, and heap-investigation skills under `.claude/driverapp/`. Each supplied skill or command is retained in one location; identical root-level copies were removed. The README describes intended use; it does not claim that every command was executed or every generated result was independently validated.
